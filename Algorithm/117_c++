@@ -1,0 +1,48 @@
+class Solution {
+public:
+    void connect(TreeLinkNode *root) {
+        TreeLinkNode *p1=root;
+        TreeLinkNode *p2;
+        TreeLinkNode *p3;
+        if(p1==NULL)
+            return;
+        p1->next=NULL;
+        p2=p1;
+        p3=p1;
+        while(!find(&p2,&p3)){
+            p1=p2;
+            TreeLinkNode *tmp=p2;
+            while(!find(&p2,&p3)){
+                tmp->next=p2;
+                tmp=p2;
+            }
+            tmp->next==NULL;
+            p3=p1;
+            p2=p1;
+        }
+    }
+    int find(TreeLinkNode **p2,TreeLinkNode **p3) {
+        if((*p2)==(*p3)->right){
+            if((*p3)->next!=NULL){
+                 (*p3)=(*p3)->next;
+                 return find(p2,p3);
+            }
+            else{
+                return 1;
+            }
+        }
+        if((*p3)->left!=NULL && (*p2)!=(*p3)->left){
+            (*p2)=(*p3)->left;
+            return 0;
+        }
+        if((*p3)->right!=NULL){
+            (*p2)=(*p3)->right;
+            return 0;
+        }
+        if((*p3)->next!=NULL){
+            (*p3)=(*p3)->next;
+            return find(p2,p3);
+        }
+        return 1;
+    }
+};
