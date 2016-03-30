@@ -1,0 +1,59 @@
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        srand((unsigned)time(0));  
+        vector<int> s;
+        vector<int> l;
+        s=nums1.size()>nums2.size()?nums2:nums1;
+        l=nums1.size()>nums2.size()?nums1:nums2;
+        int sn=0;
+        int ln=(s.size()+l.size())/2;
+        int sremain=s.size();
+        while(true){
+            if(sremain==0)
+                break;
+            int r=rand() % sremain;
+            if(s[sn+r]>=l[ln-1-r]){
+                sremain=r;
+                continue;
+            }
+            else{
+                sn=sn+r+1;
+                ln=ln-r-1;
+                sremain=sremain-r-1;
+            }
+        }
+        if((s.size()+l.size())%2==1){
+            if(s.size()!=0){
+                if(sn==s.size())
+                    return l[ln];
+                else if(ln==l.size())
+                    return s[sn];
+                else
+                    return l[ln]>=s[sn]?s[sn]:l[ln];
+            }
+            else{
+                return l[ln];
+            }
+        }
+        else{
+            if(s.size()!=0){
+                int k1,k2;
+                if(sn==s.size()){
+                    k1=l[ln-1]>=s[sn-1]?l[ln-1]:s[sn-1];
+                    k2=l[ln];
+                }
+                else if(ln==l.size())
+                    return (s[sn]+l[ln-1])/2.0;
+                else{
+                    k1=l[ln-1]>=s[sn-1]?l[ln-1]:s[sn-1];
+                    k2=l[ln]<=s[sn]?l[ln]:s[sn];
+                }
+                return (k1+k2)/2.0;
+            }
+            else{
+                return (l[ln-1]+l[ln])/2.0;
+            }
+        }
+    }
+};
